@@ -42,9 +42,8 @@ int main(int argc, char* argv[])
             }),
             Menu("Поиск гамильтоновых путей", mHamiltonianPath),
             Menu("Поиск кратчайшего пути Алгоритмом Дейкстры", mDijkstra)
-        }//,
-        //Menu("Считать граф из файла ")
-        )
+        }),
+        Menu("Считать граф из файла ", mReadGraphFromFile)
     }, params);
     menu.run();
 
