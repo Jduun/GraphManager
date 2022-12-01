@@ -58,21 +58,6 @@ void Menu::run(vany _params)
 
 void Menu::PrintMenu()
 {
-    /*
-    if (!function)
-    {
-        std::cout << "Меню: '" << label << "'\n";
-    }
-    for (size_t i = 0; i < menus.size(); i++) 
-    {
-        std::cout << i + 1 << ". " << menus[i].label << "\n";
-    }
-    if (!function)
-    {
-        std::cout << "0. Выйти из '" << label << "'\n";
-    }
-    */
-
     if (!function)
     {
         std::cout << "Меню: '" << label << "'\n";
