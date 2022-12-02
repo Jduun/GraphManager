@@ -250,9 +250,16 @@ inline void mHamiltonianPath(Menu::vany params)
     }
     auto hps = graph->HamiltonianPath();
     std::cout << "Гамильтоновы пути:\n";
-    for (auto i : hps)
+    if (hps.empty())
     {
-        std::cout << i << "\n";
+        std::cout << "Не существуют в данном графе!\n";
+    }
+    else
+    {
+        for (auto i : hps)
+        {
+            std::cout << i << "\n";
+        }
     }
     foutlog.Logging(concat("\n", vvtos(graph->getWeightMatrix())));
 }
