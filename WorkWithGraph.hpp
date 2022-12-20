@@ -221,7 +221,7 @@ inline void mDijkstra(Menu::vany params)
     if (graph->getVertexCount() == 0)
     {
         std::cout << "Граф пустой!\n";
-        ferrlog.Logging("attempt to apply Dijkstra's algorithm to an empty graph");
+        ferrlog.Logging("Attempt to apply Dijkstra's algorithm to an empty graph");
         return;
     }
     int v = InputInt("Введите начальную вершину: ", 0, graph->getVertexCount() - 1, &ferrlog);
@@ -233,6 +233,29 @@ inline void mDijkstra(Menu::vany params)
             std::cout << "Путь " << v << "->" << i << ": " << dijksta.second[i] << " Длина пути: " << dijksta.first[i] << "\n";
         }
     }
+    foutlog.Logging(concat("\n", vvtos(graph->getWeightMatrix())));
+}
+
+inline void mFordFulkerson(Menu::vany params)
+{
+    auto graph = std::any_cast<Graph*>(params[0]);
+    auto foutlog = std::any_cast<FileLogging>(params[2]);
+    auto ferrlog = std::any_cast<FileLogging>(params[3]);
+    foutlog.Logging(concat("Function call: ", __func__));
+    if (graph->getVertexCount() == 0)
+    {
+        std::cout << "Граф пустой!\n";
+        ferrlog.Logging("Attempt to apply Dijkstra's algorithm to an empty graph");
+        return;
+    }
+    int s = InputInt("Введите вершину-исток: ", 0, graph->getVertexCount() - 1, &ferrlog);
+    int t = InputInt("Введите вершину-сток: ", 0, graph->getVertexCount() - 1, &ferrlog);
+    if (s == t)
+    {
+        std::cout << "Исток и сток должны различаться!\n";
+        ferrlog.Logging("Source and sink are equal");
+    }
+    std::cout << "Максимальный поток равен " << graph->FordFulkerson(s, t) << "\n";
     foutlog.Logging(concat("\n", vvtos(graph->getWeightMatrix())));
 }
 

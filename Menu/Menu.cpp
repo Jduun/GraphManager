@@ -61,7 +61,7 @@ void Menu::PrintMenu()
     if (!function)
     {
         std::cout << "Меню: '" << label << "'\n";
-        for (size_t i = 0; i < menus.size(); i++) 
+        for (size_t i = 0; i < menus.size(); i++)
         {
             std::cout << i + 1 << ". " << menus[i].label << "\n";
         }

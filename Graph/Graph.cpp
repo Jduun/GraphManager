@@ -165,6 +165,22 @@ void Graph::PrintGraph(const size_t PRECISION) const
 	std::stringstream ssMaxWeight;
 	ssMaxWeight << std::fixed << std::setprecision(PRECISION) << maxWeight;
 	size_t lenMaxWeight = ssMaxWeight.str().length();
+	bool edgesArePositive = true; // все ребра - положительные числа
+	for (auto i : weightMatrix)
+	{
+		for (auto j : i)
+		{
+			if (j < 0)
+			{
+				edgesArePositive = false;
+				break;
+			}
+		}
+		if (!edgesArePositive)
+		{
+			break;
+		}
+	}
 	// вычисляем количество ячеек cellsCount под каждое число матрицы weightMatrix,
 	// чтобы матрица вывелась ровно
 	size_t cellsCount = std::max(lenMaxWeight, INF.length()) + 2;
@@ -174,7 +190,7 @@ void Graph::PrintGraph(const size_t PRECISION) const
 		{
 			if (j == inf())
 			{
-				std::cout << std::setw(cellsCount) << INF;
+				std::cout << std::setw(cellsCount) << (edgesArePositive ? "0" : INF);
 			}
 			else
 			{
@@ -275,4 +291,67 @@ std::vector<std::vector<size_t>> Graph::HamiltonianPath() const
 		}
 	} while (std::next_permutation(vertices.begin(), vertices.end()));
 	return paths;
+}
+
+int Graph::BFSforFordFulkerson(const int s, const int target, std::vector<int>& parent, std::vector<std::vector<int>>& graph) const
+{
+
+	fill(parent.begin(), parent.end(), -1);
+	parent[s] = -2;
+	std::queue<std::pair<int, int>> q;
+	q.push({s, INT_MAX});
+	while (!q.empty())
+	{
+		int u = q.front().first;
+		int cap = q.front().second;
+		q.pop();
+		for (int v = 0; v < getVertexCount(); v++)
+		{
+			if (u != v && graph[u][v] != 0 && parent[v] == -1)
+			{
+				parent[v] = u;
+				int min_cap = std::min(cap, graph[u][v]);
+				if (v == target)
+				{
+					return min_cap;
+				}
+				q.push({v, min_cap});
+			}
+		}
+	}
+	return 0;
+}
+
+int Graph::FordFulkerson(const int s, const int t) const
+{
+	const int V = getVertexCount();
+	std::vector<std::vector<int>> rGraph(V, std::vector<int>(V)); // остаточные пропускные способности
+	for (int i = 0; i < V; i++)
+	{
+		for (int j = 0; j < V; j++)
+		{
+			rGraph[i][j] = (weightMatrix[i][j] == inf() ? 0 : weightMatrix[i][j]);
+		}
+	}
+	return FordFulkerson(s, t, rGraph);
+}
+
+int Graph::FordFulkerson(const int s, const int t, std::vector<std::vector<int>>& graph) const
+{
+	std::vector<int> parent(getVertexCount(), -1);
+	int max_flow = 0;
+	int min_cap = 0;	
+	while (min_cap = BFSforFordFulkerson(s, t, parent, graph))
+	{
+		max_flow += min_cap;
+		int v = t;
+		while (v != s)
+		{
+			int u = parent[v];
+			graph[u][v] -= min_cap;
+			graph[v][u] += min_cap;
+			v = u;
+		}
+	}
+	return max_flow;
 }

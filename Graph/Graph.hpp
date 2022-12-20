@@ -1,6 +1,7 @@
 #ifndef GRAPH
 #define GRAPH
 #include <vector>
+
 #include <iostream>
 #include <exception>
 #include <stack>
@@ -10,7 +11,7 @@
 #include "../HelpFunctions.hpp"
 
 class Graph
-{	
+{
 public:
 	// Матрица весов
 	using WeightMatrix = std::vector<std::vector<double>>;
@@ -45,10 +46,15 @@ public:
 	// Возвращает вектор гамильтоновых путей графа - простых путей (т.е. без петель), проходящих через каждую
 	// вершину графа только один раз
 	std::vector<std::vector<size_t>> HamiltonianPath() const;
-
+	// Возвращает максимальный поток из истока s в сток t
+	int FordFulkerson(const int s, const int t) const;
+	
 private:
 	WeightMatrix weightMatrix{};
 	// Существует ли связь между вершинами i и j
-	bool ExistLink(const size_t i, const size_t j) const; // переименовать функцию? ExistDirectWay
+	bool ExistLink(const size_t i, const size_t j) const;
+	//bool BFSforFordFulkerson(int s, int t, int path[]) const;
+	int FordFulkerson(const int s, const int t, std::vector<std::vector<int>>& graph) const;
+	int BFSforFordFulkerson(const int s, const int t, std::vector<int>& parent, std::vector<std::vector<int>>& graph) const;
 };
 #endif

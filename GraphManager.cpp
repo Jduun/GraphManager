@@ -41,7 +41,8 @@ int main(int argc, char* argv[])
                 Menu("Обход в глубину", mDepthFirstSearch)
             }),
             Menu("Поиск гамильтоновых путей", mHamiltonianPath),
-            Menu("Поиск кратчайшего пути Алгоритмом Дейкстры", mDijkstra)
+            Menu("Поиск кратчайшего пути Алгоритмом Дейкстры", mDijkstra),
+            Menu("Поиск максимального потока на основе поиска в ширину", mFordFulkerson)
         }),
         Menu("Считать граф из файла ", mReadGraphFromFile)
     }, params);
